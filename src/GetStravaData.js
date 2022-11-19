@@ -3,8 +3,8 @@ import React, { useState, useEffect} from 'react';
 import { Link, Routes, Route, useSearchParams } from "react-router-dom";
 
 const callback_domain = "http://localhost:3001"
-const client_id = "93718"
-const client_secret = "565e029eaaff81270bbf2e3b01079682355a2041"
+const client_id = ""
+const client_secret = ""
 
 const GetStravaData = () => {
 
