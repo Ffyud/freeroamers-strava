@@ -158,7 +158,8 @@ const GetStravaData = (props) => {
             method: "POST",
         };
 
-        fetch(urlOauthToken, options)
+        // FIXME doet een call teveel, geeft altijd fout
+        fetch(url, options)
             .then((response) => response.json())
             .then((response) => {
                 const accessToken = response["access_token"];
