@@ -174,15 +174,8 @@ const GetStravaData = (props) => {
      * @param {string} clientSecret - The client secret that belongs tho this application.
      */
     const requestOauth = (authToken, clientId, clientSecret) => {
-        const urlOauthToken =
-            "https://www.strava.com/oauth/token?client_id=" +
-            clientId +
-            "&client_secret=" +
-            clientSecret +
-            "&code=" +
-            authToken +
-            "&grant_type=authorization_code";
-        
+        const url = "https://www.strava.com/oauth/token?client_id="+ clientId +"&client_secret=" + clientSecret + "&code=" + authToken + "&grant_type=authorization_code"
+
         const options = {
             method: "POST",
         };
