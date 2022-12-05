@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import Loading from "./Loading";
 
 const callback_domain = "http://localhost:3001";
 const client_id = "";
@@ -191,6 +192,7 @@ const GetStravaData = (props) => {
                 const auth_token = searchParams.get("code");
                 setAuthTokenState(auth_token);
                 console.log("Received an authorization token: " + auth_token);
+                setShowLoading(true)
                 requestOauth(auth_token, client_id, client_secret);
             }
         } else {
@@ -210,6 +212,7 @@ const GetStravaData = (props) => {
                 <button className="toestemming" onClick={() => requestPermission()}>
                     geef toestemming
                 </button>
+                { showLoading ? <Loading></Loading> : null }
                 <Link to="../show">
                     <button href className="bekijken" onClick={() => printData()} disabled={disabledButton}>
                         bekijk je data
