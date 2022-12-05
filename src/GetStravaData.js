@@ -110,6 +110,11 @@ const GetStravaData = (props) => {
         return athlete_id;
     };
 
+    const convertToKilometer = (meters) => {
+        var km = Math.trunc(meters / 1000)
+        return km
+    }
+
     /**
      * Obtain the user stats by from v3/athletes/{athleteId}/stats
      * @function
