@@ -207,8 +207,16 @@ const GetStravaData = (props) => {
 
     return (
         <div>
-            {/* <div className="background"></div> */}
+            <div className="introduction">
+                        <header><h1>FREEROAMERS</h1><h3>Bekijk je Strava data op een mooie manier.</h3></header>
+
+                <div className="intro-flex-wrap">
+                    <div>Zie je prestaties - Bekijk de statistiek van je hele fietsgeschiedenis uit Strava in één overzicht.</div>
+                    <div>Alle ritten bij elkaar - Al je ritten op een kaart uitgetekend</div>
+                </div>
+            </div>
             <div className="wrapper-button">
+                <div className="info-toestemming">Geef toestemming om eenmalig de data van Strava te halen.</div>
                 <button className="toestemming" onClick={() => requestPermission()}>
                     geef toestemming
                 </button>
