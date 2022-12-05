@@ -38,8 +38,7 @@ const GetStravaData = (props) => {
     const requestData = (accessToken) => {
         const url = "https://www.strava.com/api/v3/athlete/activities";
 
-        // FIXME get all activities instead of latest 30
-
+        // FIXME get all activities instead of latest 30    
         const options = {
             method: "GET",
             headers: {
