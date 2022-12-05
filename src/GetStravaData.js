@@ -13,11 +13,14 @@ const GetStravaData = (props) => {
             username: "",
             firstname: "",
             lastname: "",
+            avatar: ""
         },
         activity_data: null,
         total_ride_count: 0,
         total_distance: 0,
         biggest_distance: 0,
+        elevation_gain: 0,
+        moving_time: 0
     };
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -25,6 +28,7 @@ const GetStravaData = (props) => {
     const [stravaData, setStravaData] = useState(undefined);
     const [stravaAthleteDetails, setStravaAthleteDetails] = useState(details);
     const [disabledButton, setDisabledButton] = useState(true);
+    const [showLoading, setShowLoading] = useState(false);
 
     /**
      * Obtain the user activity data with an access token.
@@ -87,6 +91,7 @@ const GetStravaData = (props) => {
                 const athlete_id = getAthleteId(js_object_response);
                 requestAthleteStats(accessToken, athlete_id);
             })
+            .then(() => setShowLoading(false))
             .then(() => setDisabledButton(false)) // Enable button when data is received
             .catch((error) => console.log("error", error));
     };
@@ -112,7 +117,8 @@ const GetStravaData = (props) => {
      * @param {string} athleteId
      */
     const requestAthleteStats = (accessToken, athleteId) => {
-        const url = "https://www.strava.com/api/v3/athletes/" + athleteId + "/stats";
+        const url_athlete_stats = "https://www.strava.com/api/v3/athletes/" + athleteId + "/stats";
+        const url_athlete = "https://www.strava.com/api/v3/athlete"
 
         const options = {
             method: "GET",
@@ -122,19 +128,42 @@ const GetStravaData = (props) => {
                 "Content-Type": "application/json",
             },
         };
-        fetch(url, options)
+        fetch(url_athlete_stats, options)
             .then((response) => response.json())
             .then((response) => {
                 const js_object_response = JSON.parse(JSON.stringify(response));
 
                 // Update the details object
-                details.total_ride_count = js_object_response["all_ride_totals"]["count"];
-                details.total_distance = js_object_response["all_ride_totals"]["distance"];
-                details.biggest_distance = js_object_response["biggest_ride_distance"];
+                details.total_ride_count = js_object_response["all_ride_totals"]["count"]
+                details.total_distance = convertToKilometer(js_object_response["all_ride_totals"]["distance"])
+                details.biggest_distance = convertToKilometer(js_object_response["biggest_ride_distance"])
+                details.elevation_gain = js_object_response["all_ride_totals"]["elevation_gain"]
+                details.moving_time = js_object_response["all_ride_totals"]["moving_time"]
 
                 setStravaAthleteDetails(details);
             })
+            .then(() =>
+                console.log("Collected athlete stats.")
+            )
             .catch((error) => console.log("error", error));
+
+        fetch(url_athlete, options)
+            .then((response) => response.json())
+            .then((response) => {
+                const js_object_response = JSON.parse(JSON.stringify(response));
+
+                // Update the details object
+                details.user.username = js_object_response["username"];
+                details.user.firstname = js_object_response["firstname"];
+                details.user.lastname = js_object_response["lastname"];
+                details.user.avatar = js_object_response["profile"]
+
+                setStravaAthleteDetails(details);
+            })
+            .then(() =>
+                console.log("Collected athlete information.")
+            )
+            .catch((error) => console.log("error", error));    
     };
 
     /**
