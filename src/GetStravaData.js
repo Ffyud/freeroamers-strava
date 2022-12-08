@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Loading from "./Loading";
 
-const callback_domain = "http://localhost:3001";
-const client_id = "";
-const client_secret = "";
+const callback_domain = "http://localhost:3000";
+
+const client_id = process.env.REACT_APP_CLIENT_ID
+const client_secret = process.env.REACT_APP_CODE
+
 
 const GetStravaData = (props) => {
     // FIXME make this a proper JS object
